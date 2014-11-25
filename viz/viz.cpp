@@ -65,5 +65,6 @@ int main(int argc, char *argv[])
 
 	delete recon;
 
+    cout << endl;
 	return 0;
 }

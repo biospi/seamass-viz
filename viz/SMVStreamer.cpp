@@ -21,7 +21,8 @@
 
 #include <omp.h>
 #include <boost/filesystem.hpp>
-
+#include <math.h>
+#include <limits>
 
 using namespace SpatialIndex;
 

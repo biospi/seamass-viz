@@ -56,7 +56,7 @@ next_stream()
 	boost::filesystem::create_directory(viz_path);
 
 	viz_path /= "stream.csv";	
-	ofs.open(viz_path.string());
+	ofs.open(viz_path.string().c_str());
 	start = omp_get_wtime();
 
 	stream_i++;
@@ -72,7 +72,7 @@ next_chunk(const vector<Coef>& cs)
 	ostringstream oss2; oss2 << setfill('0') << setw(8) << chunk_i++ << ".txt";
 	viz_path /= oss2.str();
 
-	ofstream ofs2(viz_path.string());
+	ofstream ofs2(viz_path.string().c_str());
 	for (size_t i = 0; i < cs.size(); i++)
 	{
 		ofs2 << cs[i].v << ":[" << cs[i].lx << "," << cs[i].ly << "]:[" << cs[i].x << "," << cs[i].y << "]" << endl;
