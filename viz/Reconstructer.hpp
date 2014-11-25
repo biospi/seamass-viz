@@ -34,14 +34,16 @@ struct Coef
 class Reconstructer
 {
 protected:
-	const string out_dir;
+	string out_dir;
+	int stream_i;
+	int chunk_i;
+
 	ofstream ofs;
 	double start;
 
-	int index;
-
 public:
-	Reconstructer(const string& out_dir);
+	Reconstructer(const string& _out_dir);
 
+	void next_stream();
 	void next_chunk(const vector<Coef>& cs);
 };

@@ -160,10 +160,10 @@ SMVStreamer(const string& filename) :
 	first(true)
 {
 	int lastdot = filename.find_last_of("."); 
-	string basename = (lastdot == string::npos) ? basename : filename.substr(0, lastdot);
+	basename = (lastdot == string::npos) ? basename : filename.substr(0, lastdot);
 
     cout << "Reading " << basename << ".idx" << endl;
-    cout << "Reading " << basename << ".dat" << endl;
+	double start = omp_get_wtime();
 
 	diskfile = StorageManager::loadDiskStorageManager(basename);
 	// this will try to locate and open an already existing storage manager.
@@ -175,6 +175,8 @@ SMVStreamer(const string& filename) :
 	// If we need to open an existing tree stored in the storage manager, we only
 	// have to specify the index identifier as follows
 	tree = RTree::loadRTree(*file, 1);
+
+	cout << "Duration: " << omp_get_wtime() - start << " seconds" << endl;
 }
 
 
@@ -195,9 +197,10 @@ stream_cs(double mz_min, double mz_max, double rt_min, double rt_max,
 {
 	if (first)
 	{
-		cout << "Streaming, press Ctrl-C to stop" << endl;
+		cout << endl << "Streaming " << basename << ".dat" << ", press Ctrl-C to stop" << endl;
 		first = false;
 	}
+	recon->next_stream();
 
 	double low[3] = {
 		mz_min * 60/1.0033548378,

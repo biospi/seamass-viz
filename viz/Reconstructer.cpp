@@ -28,7 +28,7 @@
 Reconstructer::
 Reconstructer(const string& _out_dir) :
 	out_dir(_out_dir),
-	index(0)
+	stream_i(0)
 {
 	boost::filesystem::path viz_path(out_dir);
 	if (boost::filesystem::exists(viz_path))
@@ -42,24 +42,41 @@ Reconstructer(const string& _out_dir) :
 	{
 		boost::filesystem::create_directories(viz_path);
 	}
-	viz_path /= "stream.csv";
-	
+}
+
+void
+Reconstructer::
+next_stream()
+{
+	chunk_i = 0;
+
+	boost::filesystem::path viz_path(out_dir);
+	ostringstream oss; oss << stream_i;
+	viz_path /= oss.str();
+	boost::filesystem::create_directory(viz_path);
+
+	viz_path /= "stream.csv";	
 	ofs.open(viz_path.string());
 	start = omp_get_wtime();
+
+	stream_i++;
 }
 
 void
 Reconstructer::
 next_chunk(const vector<Coef>& cs)
 {
-	ofs << omp_get_wtime() - start << endl;
-
 	boost::filesystem::path viz_path(out_dir);
-	ostringstream oss; oss << setfill('0') << setw(8) << index++ << ".txt";
+	ostringstream oss; oss << stream_i-1;
 	viz_path /= oss.str();
-	ofstream ofs(viz_path.string());
+	ostringstream oss2; oss2 << setfill('0') << setw(8) << chunk_i++ << ".txt";
+	viz_path /= oss2.str();
+
+	ofstream ofs2(viz_path.string());
 	for (size_t i = 0; i < cs.size(); i++)
 	{
-		ofs << cs[i].v << ":[" << cs[i].lx << "," << cs[i].ly << "]:[" << cs[i].x << "," << cs[i].y << "]" << endl;
+		ofs2 << cs[i].v << ":[" << cs[i].lx << "," << cs[i].ly << "]:[" << cs[i].x << "," << cs[i].y << "]" << endl;
 	}
+
+	ofs << omp_get_wtime() - start << endl;
 }

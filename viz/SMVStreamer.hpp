@@ -33,6 +33,7 @@ class SMVStreamer
 protected:
 	bool first;
 
+	string basename;
 	IStorageManager* diskfile;
 	StorageManager::IBuffer* file;
 	ISpatialIndex* tree;
