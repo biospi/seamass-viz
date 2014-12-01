@@ -70,7 +70,7 @@ private:
 public:
 	MyQueryStrategy(const IShape& _query,
 		            Reconstructer* _recon,
-					int _chunk_size = 4096) : 
+					int _chunk_size) : 
 	  query(_query),
 	  recon(_recon),
 	  chunk(_chunk_size),
@@ -138,10 +138,10 @@ public:
 				double w = 0.25 * (chunk[i].r->getHigh(0) - chunk[i].r->getLow(0));
 				double h = 0.25 * (chunk[i].r->getHigh(1) - chunk[i].r->getLow(1));
 				
-				cs[i].x = chunk[i].r->getLow(0) / w + 3;
-				cs[i].y = chunk[i].r->getLow(1) / h + 3;
-				cs[i].lx = -log(w) / log(2.0);
-				cs[i].ly = -log(h) / log(2.0);
+				cs[i].x = (int) (chunk[i].r->getLow(0) / w) + 3;
+				cs[i].y = (int) (chunk[i].r->getLow(1) / h) + 3;
+				cs[i].lx = (int) (-log(w) / log(2.0));
+				cs[i].ly = (int) (-log(h) / log(2.0));
 				cs[i].v = -chunk[i].r->getLow(2);
 			
 				delete chunk[i].r;
@@ -157,11 +157,15 @@ public:
 
 
 SMVStreamer::
-SMVStreamer(const string& filename) :
-	first(true)
+SMVStreamer(const string& filename)
 {
 	int lastdot = filename.find_last_of("."); 
 	basename = (lastdot == string::npos) ? basename : filename.substr(0, lastdot);
+
+    cout << "Reading " << basename << ".txt" << endl;
+	ostringstream oss; oss << basename << ".txt";
+	ifstream ifs(oss.str().c_str());
+	ifs >> max_intensity; 
 
     cout << "Reading " << basename << ".idx" << endl;
 	double start = omp_get_wtime();
@@ -196,12 +200,8 @@ SMVStreamer::
 stream_cs(double mz_min, double mz_max, double rt_min, double rt_max,
           size_t chunk_size, Reconstructer* recon)
 {
-	if (first)
-	{
-		cout << endl << "Streaming " << basename << ".dat" << ", press Ctrl-C to stop" << endl;
-		first = false;
-	}
-	recon->next_stream();
+	cout << endl << "Streaming " << basename << ".dat" << ", press Ctrl-C to stop" << endl;
+	recon->next_stream(mz_min, mz_max, rt_min, rt_max, max_intensity);
 
 	double low[3] = {
 		mz_min * 60/1.0033548378,

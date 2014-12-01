@@ -19,56 +19,16 @@
 
 #pragma once
 
-#include <string>
 #include <vector>
-#include <fstream>
 #include <boost/filesystem.hpp>
-#include <boost/gil/gil_all.hpp>
-
-#include "PNGWriter.hpp"
 
 using namespace std;
 using namespace boost;
 
-namespace boost { namespace gil {
-
-typedef double  bits64f; 
-GIL_DEFINE_BASE_TYPEDEFS(64f,gray);
-
-}}
-
-struct Coef
+class PNGWriter
 {
-	int lx, ly, x, y;
-	double v;
-};
-
-class Reconstructer
-{
-protected:
-	filesystem::path out_path;
-
-	vector<double>   img;
-	int              w;
-	int              h;
-
-	double mz_min;
-	double mz_max;
-	double rt_min;
-	double rt_max;
-	double max_counts;
-
-	filesystem::path stream_path;
-	ofstream         stream_ofs;
-	int              stream_index;
-	int              chunk_index;
-
-	double start;
-	PNGWriter writer;
-
 public:
-	Reconstructer(const string& out_dir, int width, int height);
+	PNGWriter() {}
 
-	void next_stream(double mz_min, double mz_max, double rt_min, double rt_max, double max_counts);
-	void next_chunk(const vector<Coef>& cs);
+	void write(const filesystem::path& path, const vector<double>& img, int width, int height, double max_intensity);
 };

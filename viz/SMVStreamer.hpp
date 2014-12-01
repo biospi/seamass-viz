@@ -31,12 +31,12 @@ using namespace SpatialIndex;
 class SMVStreamer
 {
 protected:
-	bool first;
-
 	string basename;
 	IStorageManager* diskfile;
 	StorageManager::IBuffer* file;
 	ISpatialIndex* tree;
+
+	double max_intensity;
 
 public:
 	SMVStreamer(const string& filename);

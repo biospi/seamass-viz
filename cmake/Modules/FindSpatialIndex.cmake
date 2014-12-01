@@ -21,7 +21,7 @@ FIND_PATH(SPATIALINDEX_INCLUDE_DIR NAMES SpatialIndex.h PATHS
   PATH_SUFFIXES spatialindex
   )
 
-FIND_LIBRARY(SPATIALINDEX_LIBRARY NAMES spatialindex_i spatialindex spatialindex-64 PATHS
+FIND_LIBRARY(SPATIALINDEX_LIBRARY NAMES spatialindex_i spatialindex spatialindex-32 spatialindex-64 PATHS
   /usr/lib
   /usr/local/lib
   "$ENV{LIB_DIR}/lib"
