@@ -133,7 +133,7 @@ Reconstructer::
 next_chunk(const vector<Coef>& cs)
 {
 	// time chunk
-	stream_ofs << omp_get_wtime() - start << ",";
+	stream_ofs << cs.size() * (chunk_index+1) << "," << omp_get_wtime() - start << ",";
 
 	// write chunk to csv file
 	ostringstream txtfile_oss; txtfile_oss << setfill('0') << setw(8) << chunk_index << ".txt";

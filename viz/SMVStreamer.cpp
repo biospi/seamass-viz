@@ -169,6 +169,7 @@ SMVStreamer(const string& filename)
 
     cout << "Reading " << basename << ".idx" << endl;
 	double start = omp_get_wtime();
+	cout << basename << endl;
 
 	diskfile = StorageManager::loadDiskStorageManager(basename);
 	// this will try to locate and open an already existing storage manager.
