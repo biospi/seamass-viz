@@ -109,7 +109,7 @@ public:
 		while (node_q.empty() && !data_q.empty() ||
 			   !data_q.empty() && data_q.top().r->getLow(2) <= node_q.top().r->getLow(2))
 		{
-			visitData(data_q.top());
+			visitData(data_q.top(), !(node_q.empty() && data_q.size() == 1));
 			data_q.pop();
 		}
 
@@ -126,11 +126,15 @@ public:
 		}
 	}
 
-	void visitData(const MyPair& pair)
+	void visitData(const MyPair& pair, bool hasNext)
 	{
-		chunk[index] = pair;
+		chunk[index++] = pair;
 
-		if (++index == chunk.size())		
+		if (!hasNext)
+		{
+			chunk.resize(index);
+		}
+		if (index == chunk.size())		
 		{
 			vector<Coef> cs(chunk.size());
 			for (size_t i = 0; i < chunk.size(); i++)
@@ -165,11 +169,10 @@ SMVStreamer(const string& filename)
     cout << "Reading " << basename << ".txt" << endl;
 	ostringstream oss; oss << basename << ".txt";
 	ifstream ifs(oss.str().c_str());
-	ifs >> max_intensity; 
+	ifs >> mz_min >> mz_max >> rt_min >> rt_max >> counts_max; 
 
     cout << "Reading " << basename << ".idx" << endl;
 	double start = omp_get_wtime();
-	cout << basename << endl;
 
 	diskfile = StorageManager::loadDiskStorageManager(basename);
 	// this will try to locate and open an already existing storage manager.
@@ -198,20 +201,27 @@ SMVStreamer::
 // only supports cm with dimension 2 at present
 void
 SMVStreamer::
-stream_cs(double mz_min, double mz_max, double rt_min, double rt_max,
+stream_cs(double _mz_min, double _mz_max, double _rt_min, double _rt_max,
           size_t chunk_size, Reconstructer* recon)
 {
-	cout << endl << "Streaming " << basename << ".dat" << ", press Ctrl-C to stop" << endl;
-	recon->next_stream(mz_min, mz_max, rt_min, rt_max, max_intensity);
+	_mz_min = mz_min > _mz_min ? mz_min : _mz_min;
+	_mz_max = mz_max < _mz_max ? mz_max : _mz_max;
+	_rt_min = rt_min > _rt_min ? rt_min : _rt_min;
+	_rt_max = rt_max < _rt_max ? rt_max : _rt_max;
+
+	cout << endl << "Reading " << basename << ".dat" << endl;
+	cout << "Streaming " << _mz_min << " to " << _mz_max << " m/z, " << _rt_min << " to " << _rt_max << " mins" << endl;
+	cout << "press Ctrl-C to stop" << endl;
+	recon->next_stream(_mz_min, _mz_max, _rt_min, _rt_max, counts_max);
 
 	double low[3] = {
-		mz_min * 60/1.0033548378,
-		rt_min,
+		_mz_min * 60/1.0033548378,
+		_rt_min,
 		-numeric_limits<double>::max()
 	};
 	double high[3] = {
-		mz_max * 60/1.0033548378,
-		rt_max,
+		_mz_max * 60/1.0033548378,
+		_rt_max,
 		0.0
 	};
 	Region r(low, high, 3);

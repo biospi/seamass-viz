@@ -37,9 +37,9 @@ write(const filesystem::path& filename, const vector<double>& img, int w, int h,
 		for (int x = 0; x < w; ++x)
 		{
 			double s = log(2.0*sqrt(img[x+y*w]+3.0/8.0)) / max_intensity;
-			//s = s > 0.0 ? s : 0.0;
-			//s = s < 1.0 ? s : 1.0;
-			s = 255 - floor(255 * s);
+			s = s > 0.0 ? s : 0.0;
+			s = s < 0.99999 ? s : 0.99999;
+			s = 256 - floor(256 * s);
 
 			it[x][0] = s;
 			it[x][1] = s;

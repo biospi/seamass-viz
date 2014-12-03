@@ -67,6 +67,7 @@ protected:
 	double read_time;
 	double viz_start;
 	double viz_time;
+	size_t chunk_count;
 	PNGWriter writer;
 
 public:

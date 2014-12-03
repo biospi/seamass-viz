@@ -116,7 +116,12 @@ next_stream(double _mz_min, double _mz_max, double _rt_min, double _rt_max, doub
 	mz_max = _mz_max;
 	rt_min = _rt_min;
 	rt_max = _rt_max;
-	max_counts = _max_counts;
+
+	//un-normalise to display resolution
+	double x_res = (mz_max - mz_min)/w/1.0033548378/60.0;
+	double y_res = (rt_max - rt_min)/h;
+	//cout << x_res << ":" << y_res << endl;
+	max_counts = _max_counts / (x_res * y_res); 
 
 	ostringstream oss; oss << stream_index;
 	stream_path = out_path / oss.str();
@@ -125,10 +130,10 @@ next_stream(double _mz_min, double _mz_max, double _rt_min, double _rt_max, doub
 	filesystem::path file_path = stream_path / "stream.csv";	
 	stream_ofs.open(file_path.string().c_str());
 
-
 	img.assign(w*h, 0.0);
 	stream_index++;
 	chunk_index = 0;
+	chunk_count = 0;
 
 	read_start = omp_get_wtime();
 }
@@ -138,8 +143,9 @@ Reconstructer::
 next_chunk(const vector<Coef>& cs)
 {
 	// time chunk
+	chunk_count += cs.size();
 	read_time += omp_get_wtime() - read_start;
-	stream_ofs << cs.size() * (chunk_index+1) << "," << read_time << ",";
+	stream_ofs << chunk_count << "," << read_time << ",";
 
 	// write chunk to csv file
 	ostringstream txtfile_oss; txtfile_oss << setfill('0') << setw(8) << chunk_index << ".txt";
