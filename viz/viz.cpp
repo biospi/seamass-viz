@@ -59,6 +59,7 @@ int main(int argc, char *argv[])
 	boost::filesystem::path viz_path(in_file);
 	boost::filesystem::path viz_dir = viz_path.parent_path();
 	ostringstream oss; oss << viz_dir.stem().string() << ".out";
+	cout << oss.str() << endl;
 	Reconstructer* recon = new Reconstructer(oss.str(), out_w, out_h);
 
 	SMVStreamer* stream = new SMVStreamer(in_file);

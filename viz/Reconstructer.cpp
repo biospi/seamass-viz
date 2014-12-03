@@ -65,6 +65,9 @@ qbs4(const double& b4, const double& b3, const double& b2, const double& b)
 double
 iqbs(const double& x)
 {
+	if (x <= 0.0) return 0.0;
+	if (x >= 4.0) return 1.0;
+
 	int ix = (int) x;
 	double b = x - ix;
 	double b2 = b*b;
@@ -172,25 +175,20 @@ next_chunk(const vector<Coef>& cs)
 		int x1 = (int) ceil(x1f); x1 = x1 < w ? x1 : w;
 		
 		vector<double> bx(x1-x0+1);
-		bx.front() = 0.0;
-		for (size_t x = 1; x < bx.size() - 1; ++x)
+		for (size_t x = 0; x < bx.size(); ++x)
 		{
 			bx[x] = bspline::iqbs(4.0 * (x + x0 - x0f) / (x1f - x0f));
 		}
-		//cout << endl;
-		bx.back() = 1.0;
 
 		// i-spline in y-axis
 		int y0 = (int) floor(y0f); y0 = y0 > 0 ? y0 : 0;
 		int y1 = (int) ceil(y1f); y1 = y1 < h ? y1 : h;
 		
 		vector<double> by(y1-y0+1);
-		by.front() = 0.0;
-		for (int y = 1; y < by.size() - 1; ++y)
+		for (int y = 0; y < by.size(); ++y)
 		{
 			by[y] = bspline::iqbs(4.0 * (y + y0 - y0f) / (y1f - y0f));
 		}
-		by.back() = 1.0;
 
 		// add separable b-spline integral to image
 		for (int y = y0; y < y1; ++y)
