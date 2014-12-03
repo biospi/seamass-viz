@@ -88,7 +88,9 @@ Reconstructer(const string& out_dir, int width, int height) :
 	img(width * height),
 	w(width),
 	h(height),
-	stream_index(0)
+	stream_index(0),
+	read_time(0.0),
+	viz_time(0.0)
 {
 	if (filesystem::exists(out_path))
 	{
@@ -125,7 +127,7 @@ next_stream(double _mz_min, double _mz_max, double _rt_min, double _rt_max, doub
 	stream_index++;
 	chunk_index = 0;
 
-	start = omp_get_wtime();
+	read_start = omp_get_wtime();
 }
 
 void
@@ -133,7 +135,8 @@ Reconstructer::
 next_chunk(const vector<Coef>& cs)
 {
 	// time chunk
-	stream_ofs << omp_get_wtime() - start << ",";
+	read_time += omp_get_wtime() - read_start;
+	stream_ofs << cs.size() * (chunk_index+1) << "," << read_time << ",";
 
 	// write chunk to csv file
 	ostringstream txtfile_oss; txtfile_oss << setfill('0') << setw(8) << chunk_index << ".txt";
@@ -145,7 +148,7 @@ next_chunk(const vector<Coef>& cs)
 	}
 
 	// time display
-	start = omp_get_wtime();
+	viz_start = omp_get_wtime();
 
 	// add new basis functions to image
 	for (size_t i = 0; i < cs.size(); i++)
@@ -198,17 +201,15 @@ next_chunk(const vector<Coef>& cs)
 	}
 
 	// write display timing
-	stream_ofs << omp_get_wtime() - start << ",";
+	viz_time += omp_get_wtime() - viz_start;
+	stream_ofs << viz_time << endl;
 
 	// write png
 	ostringstream pngfile_oss; pngfile_oss << setfill('0') << setw(8) << chunk_index << ".png";
 	filesystem::path pngfile_path = stream_path / pngfile_oss.str();
 	writer.write(pngfile_path, img, w, h, max_counts);
 
-	// write png timing
-	stream_ofs << omp_get_wtime() - start << endl;
-	start = omp_get_wtime();
-
 	// increment chunk index
 	chunk_index++;
+	read_start = omp_get_wtime();
 }

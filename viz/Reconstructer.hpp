@@ -63,7 +63,10 @@ protected:
 	int              stream_index;
 	int              chunk_index;
 
-	double start;
+	double read_start;
+	double read_time;
+	double viz_start;
+	double viz_time;
 	PNGWriter writer;
 
 public:
