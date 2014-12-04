@@ -136,6 +136,8 @@ next_stream(double _mz_min, double _mz_max, double _rt_min, double _rt_max, doub
 	chunk_count = 0;
 
 	read_start = omp_get_wtime();
+
+	nx = 0; ny = 0; nxy = 0;
 }
 
 void
@@ -184,6 +186,7 @@ next_chunk(const vector<Coef>& cs)
 		for (size_t x = 0; x < bx.size(); ++x)
 		{
 			bx[x] = bspline::iqbs(4.0 * (x + x0 - x0f) / (x1f - x0f));
+			nx++;
 		}
 
 		// i-spline in y-axis
@@ -194,6 +197,7 @@ next_chunk(const vector<Coef>& cs)
 		for (int y = 0; y < by.size(); ++y)
 		{
 			by[y] = bspline::iqbs(4.0 * (y + y0 - y0f) / (y1f - y0f));
+			ny++;
 		}
 
 		// add separable b-spline integral to image
@@ -201,6 +205,7 @@ next_chunk(const vector<Coef>& cs)
 		for (int x = x0; x < x1; ++x)
 		{
 			img[x+y*w] += cs[i].v * (bx[x-x0+1] - bx[x-x0]) * (by[y-y0+1] - by[y-y0]);
+			nxy++;
 		}
 	}
 
@@ -216,4 +221,6 @@ next_chunk(const vector<Coef>& cs)
 	// increment chunk index
 	chunk_index++;
 	read_start = omp_get_wtime();
+
+	cout << nx << "," << ny << "," << nxy << endl;
 }

@@ -70,6 +70,8 @@ protected:
 	size_t chunk_count;
 	PNGWriter writer;
 
+	int nx,ny,nxy;
+
 public:
 	Reconstructer(const string& out_dir, int width, int height);
 
