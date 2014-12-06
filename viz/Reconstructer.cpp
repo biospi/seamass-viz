@@ -258,6 +258,7 @@ next_chunk(const vector<Coef>& cs)
 			int _i = cs[i].y-y0[cs[i].ly-ly0];
 			int _j = ix[cs[i].lx-lx0] + cs[i].x-x0[cs[i].lx-lx0];
 			double _v = cs[i].v;
+			// some basis functions are not actually in the viewport - boundary condition problem
 			if (_i >= 0 && _j >= 0 && _i < ny[cs[i].ly-ly0] && _j < ix.back()) // temp hack
 			{
 				listCy[cs[i].ly-ly0].push_back(Triplet<double>(_i,_j,_v));
