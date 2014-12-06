@@ -21,14 +21,17 @@
 
 #include <vector>
 #include <boost/filesystem.hpp>
+#include <Eigen/SparseCore>
 
 using namespace std;
 using namespace boost;
+using namespace Eigen;
 
 class PNGWriter
 {
 public:
 	PNGWriter() {}
 
-	void write(const filesystem::path& path, const vector<double>& img, int width, int height, double max_intensity);
+	void write(const filesystem::path& path, const SparseMatrix<double>& mat, double max_counts, bool show_sparsity = false);
+	void write(const filesystem::path& path, const SparseMatrix<double>& mat, bool show_sparsity = false);
 };

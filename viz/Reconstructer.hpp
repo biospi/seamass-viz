@@ -24,33 +24,29 @@
 #include <fstream>
 #include <boost/filesystem.hpp>
 #include <boost/gil/gil_all.hpp>
+#include <Eigen/SparseCore>
 
 #include "PNGWriter.hpp"
 
 using namespace std;
 using namespace boost;
-
-namespace boost { namespace gil {
-
-typedef double  bits64f; 
-GIL_DEFINE_BASE_TYPEDEFS(64f,gray);
-
-}}
+using namespace Eigen;
 
 struct Coef
 {
 	int lx, ly, x, y;
 	double v;
+	
+	bool operator()(Coef& a, Coef& b);
 };
+
 
 class Reconstructer
 {
 protected:
 	filesystem::path out_path;
 
-	vector<double>   img;
-	int              w;
-	int              h;
+	SparseMatrix<double> matDy; // accumulated image
 
 	double mz_min;
 	double mz_max;

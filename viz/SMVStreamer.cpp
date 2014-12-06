@@ -45,11 +45,13 @@ struct MyPair
 	}
 };
 
+
 // yes, this is reversed
 inline bool operator<(const MyPair& a, const MyPair& b)
 {
 	return a.r->getLow(2) > b.r->getLow(2);
 }
+
 
 // if all the nodes were internally sorted by intensity
 // we could use a quicker sorting procedure than priority_queue
@@ -150,6 +152,8 @@ public:
 			
 				delete chunk[i].r;
 			}
+
+			// reconstruct
 			recon->next_chunk(cs);
 
 			cout << "." << flush;
@@ -211,7 +215,7 @@ stream_cs(double _mz_min, double _mz_max, double _rt_min, double _rt_max,
 
 	cout << endl << "Reading " << basename << ".dat" << endl;
 	cout << "Streaming " << _mz_min << " to " << _mz_max << " m/z, " << _rt_min << " to " << _rt_max << " mins" << endl;
-	cout << "press Ctrl-C to stop" << endl;
+	cout << "press Ctrl-C to stop" << endl << endl;
 	recon->next_stream(_mz_min, _mz_max, _rt_min, _rt_max, counts_max);
 
 	double low[3] = {
