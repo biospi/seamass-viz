@@ -21,6 +21,7 @@
 
 #include <vector>
 #include <boost/filesystem.hpp>
+#include <Eigen/Core>
 #include <Eigen/SparseCore>
 
 using namespace std;
@@ -32,6 +33,9 @@ class PNGWriter
 public:
 	PNGWriter() {}
 
+	void write(const filesystem::path& path, const Matrix<double,Dynamic,Dynamic>& mat, double max_counts, bool show_sparsity = false);
+	void write(const filesystem::path& path, const Matrix<double,Dynamic,Dynamic>& mat, bool show_sparsity = false);
+	
 	void write(const filesystem::path& path, const SparseMatrix<double>& mat, double max_counts, bool show_sparsity = false);
 	void write(const filesystem::path& path, const SparseMatrix<double>& mat, bool show_sparsity = false);
 };

@@ -24,7 +24,7 @@
 #include <fstream>
 #include <boost/filesystem.hpp>
 #include <boost/gil/gil_all.hpp>
-#include <Eigen/SparseCore>
+#include <Eigen/Core>
 
 #include "PNGWriter.hpp"
 
@@ -46,7 +46,7 @@ class Reconstructer
 protected:
 	filesystem::path out_path;
 
-	SparseMatrix<double> matDy; // accumulated image
+	Matrix<double,Dynamic,Dynamic> img; // accumulated image
 
 	double mz_min;
 	double mz_max;
