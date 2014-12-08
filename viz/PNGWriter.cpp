@@ -64,7 +64,7 @@ COLOUR GetColour(double v,double vmin,double vmax)
 
 void
 PNGWriter::
-write(const filesystem::path& filename, const Matrix<double,Dynamic,Dynamic>& mat, double max_counts, bool show_sparsity)
+write(const filesystem::path& filename, Matrix<double,Dynamic,Dynamic>& mat, double max_counts, bool show_sparsity)
 {
 	double min_intensity = log(2.0*sqrt(3.0/8.0));
 	double max_intensity = log(2.0*sqrt(max_counts+3.0/8.0));
@@ -86,7 +86,7 @@ write(const filesystem::path& filename, const Matrix<double,Dynamic,Dynamic>& ma
 
 void
 PNGWriter::
-write(const filesystem::path& filename, const Matrix<double,Dynamic,Dynamic>& mat, bool show_sparsity)
+write(const filesystem::path& filename, Matrix<double,Dynamic,Dynamic>& mat, bool show_sparsity)
 {
 	double max_counts = 0.0;
 	for (int k = 0; k < mat.outerSize(); ++k)
@@ -100,7 +100,7 @@ write(const filesystem::path& filename, const Matrix<double,Dynamic,Dynamic>& ma
 
 void
 PNGWriter::
-write(const filesystem::path& filename, const SparseMatrix<double>& mat, double max_counts, bool show_sparsity)
+write(const filesystem::path& filename, SparseMatrix<double>& mat, double max_counts, bool show_sparsity)
 {
 	double max_intensity = log(2.0*sqrt(max_counts+3.0/8.0));
 
@@ -121,7 +121,7 @@ write(const filesystem::path& filename, const SparseMatrix<double>& mat, double 
 
 void
 PNGWriter::
-write(const filesystem::path& filename, const SparseMatrix<double>& mat, bool show_sparsity)
+write(const filesystem::path& filename, SparseMatrix<double>& mat, bool show_sparsity)
 {
 	double max_counts = 0.0;
 	for (int k = 0; k < mat.outerSize(); ++k)

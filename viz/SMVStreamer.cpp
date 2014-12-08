@@ -111,8 +111,9 @@ public:
 		while (node_q.empty() && !data_q.empty() ||
 			   !data_q.empty() && data_q.top().r->getLow(2) <= node_q.top().r->getLow(2))
 		{
-			visitData(data_q.top(), !(node_q.empty() && data_q.size() == 1));
+			MyPair d = data_q.top();
 			data_q.pop();
+			visitData(d, !(node_q.empty() && data_q.size() == 1));
 		}
 
 		if (!node_q.empty())
