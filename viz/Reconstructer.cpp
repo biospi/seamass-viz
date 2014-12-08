@@ -28,7 +28,7 @@
 #include <Eigen/SparseCore>
 
 
-#define DEBUG 0
+#define DEBUG 1
 
 
 namespace bspline {
