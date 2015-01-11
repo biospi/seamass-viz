@@ -27,7 +27,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     cout << endl;
-    cout << "seaMass Viz Client - Copyright (C) 2014 - biospI Laboratory" << endl;
+    cout << "seaMass Viz - http://seamass.net/viz/ - Copyright (C) 2015 - biospi Laboratory" << endl;
     cout << "This program comes with ABSOLUTELY NO WARRANTY." << endl;
     cout << "This is free software, and you are welcome to redistribute it under certain conditions." << endl;  
 	cout << endl;	
@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
 	{
 		cout << "Usage" << endl;
 		cout << "-----" << endl;
-		cout << "viz_client <in_idx> <mz_min> <mz_max> <rt_min> <rt_max> <out_w> <out_h> <chunk_size>" << endl;
+		cout << "viz <in_file> <mz_min> <mz_max> <rt_min> <rt_max> <out_w> <out_h> <chunk_size>" << endl;
 		cout << endl;
 		cout << "<in_file>:    Input idx file" << endl;
 		cout << "<mz_min>:     Minimum m/z to display" << endl;
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 		cout << "<rt_max>:     Maximum retention time to display" << endl;
 		cout << "<out_w>:      Output width in pixels" << endl;
 		cout << "<out_h>:      Output height in pixels" << endl;
-		cout << "<chunk_size>: Number of coefficients to stream per output (e.g. 10000)" << endl;
+		cout << "<chunk_size>: Number of coefficients to stream per png image output (e.g. 10000)" << endl;
 		return 0;
 	}
 	string in_file(argv[1]);

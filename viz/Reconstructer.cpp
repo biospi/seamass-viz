@@ -19,7 +19,6 @@
 
 #include "Reconstructer.hpp"
 
-#include <omp.h>
 #include <sstream>
 #include <iomanip>
 #include <iostream>

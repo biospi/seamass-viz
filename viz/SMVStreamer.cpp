@@ -19,8 +19,8 @@
 
 #include "SMVStreamer.hpp"
 
-#include <omp.h>
 #include <boost/filesystem.hpp>
+#include <boost/timer/timer.hpp>
 #include <math.h>
 #include <limits>
 
@@ -177,7 +177,8 @@ SMVStreamer(const string& filename)
 	ifs >> mz_min >> mz_max >> rt_min >> rt_max; 
 
     cout << "Reading " << basename << ".idx" << endl;
-	//double start = omp_get_wtime();
+	timer::cpu_timer time;
+	time.start();
 
 	diskfile = StorageManager::loadDiskStorageManager(basename);
 	// this will try to locate and open an already existing storage manager.
@@ -190,7 +191,8 @@ SMVStreamer(const string& filename)
 	// have to specify the index identifier as follows
 	tree = RTree::loadRTree(*file, 1);
 
-	//cout << "Duration: " << omp_get_wtime() - start << " seconds" << endl;
+    boost::chrono::duration<double> seconds = boost::chrono::nanoseconds(time.elapsed().user);
+	cout << "Duration: " << seconds.count() << " seconds" << endl;
 }
 
 
