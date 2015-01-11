@@ -5,7 +5,7 @@ find_package(PNG 1.2.50 REQUIRED)
 find_package(Boost 1.54 REQUIRED COMPONENTS
 	system filesystem log program_options
 )
-find_package(Eigen3 3.2.2 REQUIRED)
+find_package(Eigen3 3.2.0 REQUIRED)
 
 add_executable(viz
 	viz.cpp
