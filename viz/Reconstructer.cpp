@@ -132,9 +132,7 @@ Reconstructer::
 Reconstructer(const string& out_dir, int width, int height) :
 	out_path(out_dir),
 	img(height, width),
-	stream_index(0),
-	read_time(0.0),
-	viz_time(0.0)
+	stream_index(0)
 {
 	if (filesystem::exists(out_path))
 	{
@@ -171,7 +169,7 @@ next_stream(double _mz_min, double _mz_max, double _rt_min, double _rt_max)
 	chunk_index = 0;
 	chunk_count = 0;
 
-	read_start = omp_get_wtime();
+	read_time.resume();
 
 	nx = 0; ny = 0; nxy = 0;
 }
@@ -182,8 +180,9 @@ next_chunk(const vector<Coef>& cs)
 {
 	// time chunk
 	chunk_count += cs.size();
-	read_time += omp_get_wtime() - read_start;
-	stream_ofs << chunk_count << "," << read_time << ",";
+	read_time.stop();
+    boost::chrono::duration<double> read_seconds = boost::chrono::nanoseconds(read_time.elapsed().user);
+	stream_ofs << chunk_count << "," << read_seconds.count() << ",";
 
 	// write chunk to csv file
 	ostringstream txtfile_oss; txtfile_oss << setfill('0') << setw(8) << chunk_index << ".txt";
@@ -195,7 +194,7 @@ next_chunk(const vector<Coef>& cs)
 	}
 
 	// time display
-	viz_start = omp_get_wtime();
+	viz_time.resume();
 
 	// CONSTRUCT VISUALISATION //////////////////////////////////////////////////////////
 
@@ -551,8 +550,9 @@ next_chunk(const vector<Coef>& cs)
 	// END CONSTRUCT VISUALISATION ////////////////////////////////////////////
 
 	// write display timing
-	viz_time += omp_get_wtime() - viz_start;
-	stream_ofs << viz_time << endl;
+	viz_time.stop();
+    boost::chrono::duration<double> viz_seconds = boost::chrono::nanoseconds(viz_time.elapsed().user);
+	stream_ofs << viz_seconds.count() << endl;
 
 	// write png
 	ostringstream pngfile_oss; pngfile_oss << setfill('0') << setw(8) << chunk_index << ".png";
@@ -561,7 +561,7 @@ next_chunk(const vector<Coef>& cs)
 
 	// increment chunk index
 	chunk_index++;
-	read_start = omp_get_wtime();
+	read_time.resume();
 
 	//cout << nx << "," << ny << "," << nxy << endl;
 	if (DEBUG_IMG) exit(0);

@@ -23,7 +23,7 @@
 #include <vector>
 #include <fstream>
 #include <boost/filesystem.hpp>
-#include <boost/gil/gil_all.hpp>
+#include <boost/timer/timer.hpp>
 
 #include "aux_Eigen.hpp"
 
@@ -58,10 +58,8 @@ protected:
 	int              stream_index;
 	int              chunk_index;
 
-	double read_start;
-	double read_time;
-	double viz_start;
-	double viz_time;
+    timer::cpu_timer read_time;
+    timer::cpu_timer viz_time;
 	size_t chunk_count;
 	PNGWriter<fp> writer;
 

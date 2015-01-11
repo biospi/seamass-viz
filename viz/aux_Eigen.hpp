@@ -99,7 +99,7 @@ write(const filesystem::path& filename, Matrix<fp,Dynamic,Dynamic>& mat, fp max_
     gil::fill_pixels(png_view, bg);
 	
 	for (int k = 0; k < mat.outerSize(); ++k)
-	for (Matrix<fp,Dynamic,Dynamic>::InnerIterator it(mat,k); it; ++it)
+	for (typename Matrix<fp,Dynamic,Dynamic>::InnerIterator it(mat,k); it; ++it)
 	{
 		COLOUR c = GetColour(log(2.0f*sqrt(it.value()+3.0f/8.0f)), min_intensity, max_intensity);
 		png_view(it.col(), it.row()) = gil::rgb8_pixel_t((unsigned char) (c.r*255.9999f), (unsigned char) (c.g*255.9999f), (unsigned char) (c.b*255.9999f));
@@ -115,7 +115,7 @@ write(const filesystem::path& filename, Matrix<fp,Dynamic,Dynamic>& mat, bool sh
 {
 	fp max_counts = 0.0;
 	for (int k = 0; k < mat.outerSize(); ++k)
-	for (Matrix<fp,Dynamic,Dynamic>::InnerIterator it(mat,k); it; ++it)
+	for (typename Matrix<fp,Dynamic,Dynamic>::InnerIterator it(mat,k); it; ++it)
 	{
 		max_counts = max_counts > it.value() ? max_counts : it.value();
 	}
@@ -136,7 +136,7 @@ write(const filesystem::path& filename, SparseMatrix<fp>& mat, fp max_counts, bo
     gil::fill_pixels(png_view, bg);
 	
 	for (int k = 0; k < mat.outerSize(); ++k)
-	for (SparseMatrix<fp>::InnerIterator it(mat,k); it; ++it)
+	for (typename SparseMatrix<fp>::InnerIterator it(mat,k); it; ++it)
 	{
 		COLOUR c = GetColour(log(2.0f*sqrt(it.value()+3.0f/8.0f)), 0.0, max_intensity);
 		png_view(it.col(), it.row()) = gil::rgb8_pixel_t((unsigned char) (c.r*255.9999f), (unsigned char) (c.g*255.9999f), (unsigned char) (c.b*255.9999f));
@@ -152,7 +152,7 @@ write(const filesystem::path& filename, SparseMatrix<fp>& mat, bool show_sparsit
 {
 	fp max_counts = 0.0;
 	for (int k = 0; k < mat.outerSize(); ++k)
-	for (SparseMatrix<fp>::InnerIterator it(mat,k); it; ++it)
+	for (typename SparseMatrix<fp>::InnerIterator it(mat,k); it; ++it)
 	{
 		max_counts = max_counts > it.value() ? max_counts : it.value();
 	}

@@ -177,7 +177,7 @@ SMVStreamer(const string& filename)
 	ifs >> mz_min >> mz_max >> rt_min >> rt_max; 
 
     cout << "Reading " << basename << ".idx" << endl;
-	double start = omp_get_wtime();
+	//double start = omp_get_wtime();
 
 	diskfile = StorageManager::loadDiskStorageManager(basename);
 	// this will try to locate and open an already existing storage manager.
@@ -190,7 +190,7 @@ SMVStreamer(const string& filename)
 	// have to specify the index identifier as follows
 	tree = RTree::loadRTree(*file, 1);
 
-	cout << "Duration: " << omp_get_wtime() - start << " seconds" << endl;
+	//cout << "Duration: " << omp_get_wtime() - start << " seconds" << endl;
 }
 
 

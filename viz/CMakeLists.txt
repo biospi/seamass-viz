@@ -1,10 +1,9 @@
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
-find_package(MKL REQUIRED)
 find_package(SpatialIndex 1.8.5 REQUIRED)
 find_package(PNG 1.2.50 REQUIRED)
 find_package(Boost 1.54 REQUIRED COMPONENTS
-	system filesystem log program_options
+	system filesystem log program_options timer
 )
 find_package(Eigen3 3.2.0 REQUIRED)
 
@@ -18,14 +17,12 @@ add_executable(viz
 	Reconstructer.cpp
 )
 target_include_directories(viz PUBLIC
-  ${MKL_INCLUDE_DIR}
   ${SPATIALINDEX_INCLUDE_DIR}
   ${PNG_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIRS}
   ${EIGEN3_INCLUDE_DIR}
 )
 target_link_libraries (viz LINK_PUBLIC
-  ${MKL_LIBRARIES}
   ${SPATIALINDEX_LIBRARY}
   ${PNG_LIBRARIES}
   ${Boost_LIBRARIES}
