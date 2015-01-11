@@ -24,18 +24,17 @@
 #include <fstream>
 #include <boost/filesystem.hpp>
 #include <boost/gil/gil_all.hpp>
-#include <Eigen/Core>
 
-#include "PNGWriter.hpp"
+#include "aux_Eigen.hpp"
 
 using namespace std;
 using namespace boost;
-using namespace Eigen;
+
 
 struct Coef
 {
 	int lx, ly, x, y;
-	double v;
+	fp v;
 	
 	bool operator()(Coef& a, Coef& b);
 };
@@ -46,13 +45,13 @@ class Reconstructer
 protected:
 	filesystem::path out_path;
 
-	Matrix<double,Dynamic,Dynamic> img; // accumulated image
+	// accumulated image
+	Matrix<fp,Dynamic,Dynamic> img;
 
 	double mz_min;
 	double mz_max;
 	double rt_min;
 	double rt_max;
-	double max_counts;
 
 	filesystem::path stream_path;
 	ofstream         stream_ofs;
@@ -64,13 +63,13 @@ protected:
 	double viz_start;
 	double viz_time;
 	size_t chunk_count;
-	PNGWriter writer;
+	PNGWriter<fp> writer;
 
 	int nx,ny,nxy;
 
 public:
 	Reconstructer(const string& out_dir, int width, int height);
 
-	void next_stream(double mz_min, double mz_max, double rt_min, double rt_max, double max_counts);
+	void next_stream(double mz_min, double mz_max, double rt_min, double rt_max);
 	void next_chunk(const vector<Coef>& cs);
 };

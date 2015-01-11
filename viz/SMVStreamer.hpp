@@ -36,7 +36,7 @@ protected:
 	StorageManager::IBuffer* file;
 	ISpatialIndex* tree;
 
-	double mz_min, mz_max, rt_min, rt_max, counts_max;
+	double mz_min, mz_max, rt_min, rt_max;
 
 public:
 	SMVStreamer(const string& filename);

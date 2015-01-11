@@ -149,7 +149,7 @@ public:
 				cs[i].y = (int) (chunk[i].r->getLow(1) / h) + 3;
 				cs[i].lx = (int) (-log(w) / log(2.0));
 				cs[i].ly = (int) (-log(h) / log(2.0));
-				cs[i].v = -chunk[i].r->getLow(2);
+				cs[i].v = (fp) -chunk[i].r->getLow(2);
 			
 				delete chunk[i].r;
 			}
@@ -174,7 +174,7 @@ SMVStreamer(const string& filename)
     cout << "Reading " << basename << ".txt" << endl;
 	ostringstream oss; oss << basename << ".txt";
 	ifstream ifs(oss.str().c_str());
-	ifs >> mz_min >> mz_max >> rt_min >> rt_max >> counts_max; 
+	ifs >> mz_min >> mz_max >> rt_min >> rt_max; 
 
     cout << "Reading " << basename << ".idx" << endl;
 	double start = omp_get_wtime();
@@ -217,7 +217,7 @@ stream_cs(double _mz_min, double _mz_max, double _rt_min, double _rt_max,
 	cout << endl << "Reading " << basename << ".dat" << endl;
 	cout << "Streaming " << _mz_min << " to " << _mz_max << " m/z, " << _rt_min << " to " << _rt_max << " mins" << endl;
 	cout << "press Ctrl-C to stop" << endl << endl;
-	recon->next_stream(_mz_min, _mz_max, _rt_min, _rt_max, counts_max);
+	recon->next_stream(_mz_min, _mz_max, _rt_min, _rt_max);
 
 	double low[3] = {
 		_mz_min * 60/1.0033548378,
