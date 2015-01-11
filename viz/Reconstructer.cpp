@@ -164,6 +164,7 @@ next_stream(double _mz_min, double _mz_max, double _rt_min, double _rt_max)
 
 	filesystem::path file_path = stream_path / "stream.csv";	
 	stream_ofs.open(file_path.string().c_str());
+    stream_ofs << "0,0.0,0.0" << endl;
 
 	img.setZero();
 	stream_index++;
