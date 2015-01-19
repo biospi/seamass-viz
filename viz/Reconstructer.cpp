@@ -133,6 +133,9 @@ Reconstructer(const string& out_dir, int width, int height) :
 	img(height, width),
 	stream_index(0)
 {
+    read_time.stop();
+    viz_time.stop();
+
 	if (filesystem::exists(out_path))
 	{
 		for (filesystem::directory_iterator end_dir_it, it(out_path); it!=end_dir_it; ++it)
