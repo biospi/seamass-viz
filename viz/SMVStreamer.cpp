@@ -149,7 +149,7 @@ public:
 				cs[i].y = (int) (chunk[i].r->getLow(1) / h) + 3;
 				cs[i].lx = (int) (-log(w) / log(2.0));
 				cs[i].ly = (int) (-log(h) / log(2.0));
-				cs[i].v = (fp) -chunk[i].r->getLow(2);
+				cs[i].v = (fp) -chunk[i].r->getLow(2) / (w * h);
 			
 				delete chunk[i].r;
 			}
