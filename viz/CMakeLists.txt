@@ -3,7 +3,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 find_package(SpatialIndex 1.8.5 REQUIRED)
 find_package(PNG 1.2.50 REQUIRED)
 find_package(Boost 1.54 REQUIRED COMPONENTS
-	system filesystem log program_options chrono timer
+	system filesystem program_options chrono timer
 )
 find_package(Eigen3 3.2.0 REQUIRED)
 
