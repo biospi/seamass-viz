@@ -27,7 +27,7 @@ using namespace std;
 int main(int argc, char *argv[])
 {
     cout << endl;
-    cout << "seaMass Viz - http://seamass.net/viz/ - Copyright (C) 2015 - biospi Laboratory" << endl;
+    cout << "seaMass Viz 0.2.1 - http://seamass.net/viz/ - Copyright (C) 2015 - biospi Laboratory" << endl;
     cout << "This program comes with ABSOLUTELY NO WARRANTY." << endl;
     cout << "This is free software, and you are welcome to redistribute it under certain conditions." << endl;  
 	cout << endl;	
